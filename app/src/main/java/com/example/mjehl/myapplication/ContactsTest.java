@@ -5,8 +5,11 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +30,13 @@ public class ContactsTest extends AppCompatActivity {
         ArrayList<NameNumberContact> contacts = getContacts();
         contactsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contacts);
         contactsList.setAdapter(contactsAdapter);
+
+        contactsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+                String selectedFromList = (contactsList.getItemAtPosition(myItemInt)).toString();
+                Toast.makeText(getApplicationContext(), selectedFromList, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private ArrayList<NameNumberContact> getContacts(){
