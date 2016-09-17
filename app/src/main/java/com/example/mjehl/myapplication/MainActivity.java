@@ -35,9 +35,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-        Intent intent = new Intent(this, ContactsTest.class);
-        startActivity(intent);
+        
 
         txtPhoneNO = "2245956550";
         txtMessage = "Hey";
@@ -58,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
     public void addMessages(MenuItem item){
         Intent intent = new Intent(this, AddMessagesActivity.class);
         startActivity(intent);
+    }
 
+    public void chooseContact(View v){
+        Intent intent = new Intent(this, ContactsTest.class);
+        startActivity(intent);
     }
 
     public void goToSettings(MenuItem item){
