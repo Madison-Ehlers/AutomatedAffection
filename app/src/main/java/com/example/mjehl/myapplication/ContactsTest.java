@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ContactsTest extends AppCompatActivity {
 
@@ -51,6 +53,14 @@ public class ContactsTest extends AppCompatActivity {
 
             } while (cursor.moveToNext()) ;
         }
+
+        // Sort contacts
+        Collections.sort(allContacts, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
 
         return allContacts;
     }
