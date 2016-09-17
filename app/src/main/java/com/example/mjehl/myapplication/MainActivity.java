@@ -33,7 +33,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity{
     EditText messageToSend;
     boolean networkReady;
-    private ArrayList<Message> messages = new ArrayList<Message>();
+    private ArrayList<Message> messages = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
