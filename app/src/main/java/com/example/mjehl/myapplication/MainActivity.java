@@ -35,9 +35,6 @@ import java.util.Map;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity{
-
-    String txtPhoneNO;
-    String txtMessage;
     EditText messageToSend;
     boolean networkReady;
     private ArrayList<Message> messages = new ArrayList<Message>();
@@ -59,9 +56,6 @@ public class MainActivity extends AppCompatActivity{
                         .setAction("Action", null).show();
             }
         });
-
-        txtPhoneNO = "2245956550";
-        txtMessage = "Hey";
     }
     public void setRandomMessage(View v){
         if(!networkReady)return;
@@ -78,6 +72,11 @@ public class MainActivity extends AppCompatActivity{
 
     public void chooseContact(View v){
         Intent intent = new Intent(this, ContactsTest.class);
+        startActivity(intent);
+    }
+
+    public void Calendar(View v){
+        Intent intent = new Intent(this, Calendar.class);
         startActivity(intent);
     }
 
@@ -127,6 +126,7 @@ public class MainActivity extends AppCompatActivity{
 
         queue.add(strRequest);
     }
+
     public void goToSettings(MenuItem item){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
@@ -136,9 +136,14 @@ public class MainActivity extends AppCompatActivity{
         getMessagesFromServer();
     }
     public void sendMessage(View v){
-        //sendText("2245956550", "Sext me bro.");
-
         final Context context = this;
+
+        // Check that there's actually data
+        if (getIntent().getStringExtra("contactNumber") == null){
+            Toast.makeText(getApplicationContext(), "SMS FAIL. No contact selected", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         final String number = getIntent()
                 .getStringExtra("contactNumber")
                 .replaceAll("[\\s\\-()]", "");
