@@ -48,10 +48,11 @@ public class ContactsActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                             public void onClick(DialogInterface dialog, int id){
                                 // Affirmative action -> pass intent and go to previous activity
-                                Intent intent = new Intent(context, MainActivity.class);
+                                Intent intent = new Intent();
                                 intent.putExtra("contactName", selectedFromList.getName());
                                 intent.putExtra("contactNumber", selectedFromList.getNumber());
-                                startActivity(intent);
+                                setResult(RESULT_OK, intent);
+                                finish();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){

@@ -36,7 +36,10 @@ public class MainActivity extends AppCompatActivity{
     boolean networkReady;
     private ArrayList<Message> messages = new ArrayList<>();
     private NameNumberContact mom;
-    
+    private static final int PICK_CONTACT_REQUEST = 1;
+    private String number;
+    private String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mom = getMom();
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void chooseContact(View v){
         Intent intent = new Intent(this, ContactsActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, PICK_CONTACT_REQUEST);
     }
 
     public void Calendar(View v){
@@ -144,20 +147,11 @@ public class MainActivity extends AppCompatActivity{
     }
     public void sendMessage(View v){
         final Context context = this;
-        String number;
-        String name;
 
         // Check that there's actually data
-        if (getIntent().getStringExtra("contactNumber") == null){
+        if (name == null){
             number = mom.getNumber();
             name = mom.getName();
-
-        }
-        else {
-             number = getIntent()
-                    .getStringExtra("contactNumber")
-                    .replaceAll("[\\s\\-()]", "");
-             name = getIntent().getStringExtra("contactName");
         }
 
         final String finalName = name;
@@ -214,5 +208,19 @@ public class MainActivity extends AppCompatActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == PICK_CONTACT_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                name = data.getStringExtra("contactName");
+                number = data
+                        .getStringExtra("contactNumber")
+                        .replaceAll("[\\s\\-()]", "");
+            }
+        }
     }
 }
