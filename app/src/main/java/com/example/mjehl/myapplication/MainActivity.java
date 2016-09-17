@@ -48,6 +48,37 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        getMessagesFromServer();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        txtPhoneNO = "2245956550";
+        txtMessage = "Hey";
+    }
+    public void setRandomMessage(View v){
+        if(!networkReady)return;
+        Random rand = new Random();
+        int index = rand.nextInt(messages.size());
+        messageToSend = (EditText) findViewById(R.id.text_to_send);
+        messageToSend.setText(messages.get(index).getMessage());
+
+    }
+    public void addMessages(MenuItem item){
+        Intent intent = new Intent(this, AddMessagesActivity.class);
+        startActivity(intent);
+    }
+
+    public void chooseContact(View v){
+        Intent intent = new Intent(this, ContactsTest.class);
+        startActivity(intent);
+    }
+
+    public void getMessagesFromServer(){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="http://hackisu.madisonehlers.com/messages";
         StringRequest strRequest = new StringRequest(Request.Method.GET, url,
@@ -94,39 +125,14 @@ public class MainActivity extends AppCompatActivity{
                 });
 
         queue.add(strRequest);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        txtPhoneNO = "2245956550";
-        txtMessage = "Hey";
     }
-    public void setRandomMessage(View v){
-        if(!networkReady)return;
-        Random rand = new Random();
-        int index = rand.nextInt(messages.size());
-        messageToSend = (EditText) findViewById(R.id.text_to_send);
-        messageToSend.setText(messages.get(index).getMessage());
-
-    }
-    public void addMessages(MenuItem item){
-        Intent intent = new Intent(this, AddMessagesActivity.class);
-        startActivity(intent);
-    }
-
-    public void chooseContact(View v){
-        Intent intent = new Intent(this, ContactsTest.class);
-        startActivity(intent);
-    }
-
     public void goToSettings(MenuItem item){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
 
+    }
+    public void refreshData(MenuItem m){
+        getMessagesFromServer();
     }
     public void sendMessage(View v){
         messageToSend = (EditText) findViewById(R.id.text_to_send);
@@ -165,5 +171,11 @@ public class MainActivity extends AppCompatActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Toast.makeText(getApplicationContext(), "Back has been pressed", Toast.LENGTH_LONG).show();
+
     }
 }
