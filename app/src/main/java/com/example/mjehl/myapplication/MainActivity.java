@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.jar.Attributes;
 
 public class MainActivity extends AppCompatActivity{
     EditText messageToSend;
@@ -122,7 +123,16 @@ public class MainActivity extends AppCompatActivity{
 
         queue.add(strRequest);
     }
-
+    public NameNumberContact getMom(){
+        ArrayList<NameNumberContact> myContacts = ContactsActivity.getContacts(getApplicationContext().getContentResolver());
+        for (int i = 0; i < myContacts.size(); i++){
+            if (myContacts.get(i).getName().toString().toLowerCase().equals("mom")){
+                Toast.makeText(getApplicationContext(), myContacts.get(i).getNumber(), Toast.LENGTH_LONG).show();
+                return myContacts.get(i);
+            }
+        }
+        return null;
+    }
     public void goToSettings(MenuItem item){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
@@ -133,17 +143,27 @@ public class MainActivity extends AppCompatActivity{
     }
     public void sendMessage(View v){
         final Context context = this;
-
+        String number;
+        String name;
+        
         // Check that there's actually data
         if (getIntent().getStringExtra("contactNumber") == null){
-            Toast.makeText(getApplicationContext(), "SMS FAIL. No contact selected", Toast.LENGTH_LONG).show();
-            return;
+            Toast.makeText(getApplicationContext(), "SMS FAIL. No contact selected... Finding Your Mom.", Toast.LENGTH_LONG).show();
+            NameNumberContact mom = getMom();
+            number = mom.getNumber();
+            name = mom.getName();
+            Toast.makeText(getApplicationContext(), "I think I found your mom... Am I right? " + number, Toast.LENGTH_LONG).show();
+
+        }
+        else {
+             number = getIntent()
+                    .getStringExtra("contactNumber")
+                    .replaceAll("[\\s\\-()]", "");
+            name = getIntent().getStringExtra("contactName");
         }
 
-        final String number = getIntent()
-                .getStringExtra("contactNumber")
-                .replaceAll("[\\s\\-()]", "");
-        final String name = getIntent().getStringExtra("contactName");
+        final String finalName = name;
+        final String finalNumber = number;
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle("Title");
@@ -153,7 +173,7 @@ public class MainActivity extends AppCompatActivity{
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id){
                         // Affirmative action
-                        sendText(number, ((EditText) findViewById(R.id.text_to_send)).getText().toString());
+                        sendText(finalNumber, ((EditText) findViewById(R.id.text_to_send)).getText().toString());
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
