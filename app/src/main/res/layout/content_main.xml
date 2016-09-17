@@ -12,7 +12,15 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.mjehl.myapplication.MainActivity"
     tools:showIn="@layout/activity_main">
+    <Button
 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_text"
+        android:onClick="sendMessage"
+        android:id="@+id/button_send"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_centerHorizontal="true" />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,5 +28,6 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>
