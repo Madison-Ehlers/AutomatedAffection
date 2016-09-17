@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Intent intent = new Intent(this, ContactsTest.class);
+        startActivity(intent);
 
         txtPhoneNO = "2245956550";
         txtMessage = "Hey";
