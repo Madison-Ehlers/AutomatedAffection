@@ -25,21 +25,23 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity{
 
     String txtPhoneNO;
     String txtMessage;
     EditText messageToSend;
-    Button btnSend;
-    private Map<String, String> params;
-    private Response.Listener<JSONObject> listener;
+    boolean networkReady;
+    private ArrayList<Message> messages = new ArrayList<Message>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        networkReady = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -71,18 +73,15 @@ public class MainActivity extends AppCompatActivity{
                                 JSONObject object = myJSON.getJSONObject(n);
 
                                 Iterator<String> x = object.keys();
-                                while(x.hasNext()){
-                                    String key = x.next();
-                                    System.out.println(key);
-                                    String value = (String) object.get(key);
-                                    System.out.println(value);
-                                    Toast.makeText(getApplicationContext(),value, Toast.LENGTH_SHORT).show();
-                                }
+                                //boobs
+                                messages.add(new Message((String) object.get(x.next()), (String) object.get(x.next()), (String) object.get(x.next()), (String) object.get(x.next()), (String) object.get(x.next())));
                             }
                             catch(Exception e){
 
                             }
                         }
+                        networkReady = true;
+                        setRandomMessage(null);
                     }
                 },
                 new Response.ErrorListener()
@@ -92,13 +91,7 @@ public class MainActivity extends AppCompatActivity{
                     {
                         Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
                     }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
-                return params;
-            };
-        };
+                });
 
         queue.add(strRequest);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +105,14 @@ public class MainActivity extends AppCompatActivity{
         txtPhoneNO = "2245956550";
         txtMessage = "Hey";
     }
+    public void setRandomMessage(View v){
+        if(!networkReady)return;
+        Random rand = new Random();
+        int index = rand.nextInt(messages.size());
+        messageToSend = (EditText) findViewById(R.id.text_to_send);
+        messageToSend.setText(messages.get(index).getMessage());
 
+    }
     public void addMessages(MenuItem item){
         Intent intent = new Intent(this, AddMessagesActivity.class);
         startActivity(intent);
@@ -131,8 +131,7 @@ public class MainActivity extends AppCompatActivity{
     public void sendMessage(View v){
         messageToSend = (EditText) findViewById(R.id.text_to_send);
         Toast.makeText(getApplicationContext(), "SMS Sent. : " + messageToSend.getText().toString() , Toast.LENGTH_LONG).show();
-        //sendText("2245956550", messageToSend.getText().toString());
-        sendText("7122993195", messageToSend.getText().toString());
+        sendText("2245956550", messageToSend.getText().toString());
     }
 
     @Override
