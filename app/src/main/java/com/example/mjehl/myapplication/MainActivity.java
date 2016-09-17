@@ -1,9 +1,12 @@
 package com.example.mjehl.myapplication;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
@@ -135,9 +138,32 @@ public class MainActivity extends AppCompatActivity{
         getMessagesFromServer();
     }
     public void sendMessage(View v){
-        messageToSend = (EditText) findViewById(R.id.text_to_send);
-        Toast.makeText(getApplicationContext(), "SMS Sent. : " + messageToSend.getText().toString() , Toast.LENGTH_LONG).show();
-        sendText("2245956550", messageToSend.getText().toString());
+        //sendText("2245956550", "Sext me bro.");
+
+        final Context context = this;
+        final String number = getIntent()
+                .getStringExtra("contactNumber")
+                .replaceAll("[\\s\\-()]", "");
+        final String name = getIntent().getStringExtra("contactName");
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setTitle("Title");
+        alertDialogBuilder
+                .setMessage("Send message to " + name + "(" + number + ")?")
+                .setCancelable(true)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        // Affirmative action
+                        sendText(number, ((EditText) findViewById(R.id.text_to_send)).getText().toString());
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override
