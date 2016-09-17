@@ -50,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void Calendar(View v){
+        Intent intent = new Intent(this, Calendar.class);
+        startActivity(intent);
+    }
+
     public void goToSettings(MenuItem item){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
