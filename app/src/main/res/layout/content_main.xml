@@ -19,8 +19,11 @@
         android:text="@string/send_text"
         android:onClick="sendMessage"
         android:id="@+id/button_send"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignTop="@+id/next_message"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_marginLeft="54dp"
+        android:layout_marginStart="54dp" />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,6 +31,71 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"/>
+    <AutoCompleteTextView android:id="@+id/autotext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:nextFocusUp="@id/autotext"
+        android:nextFocusLeft="@id/autotext"/>
+    <ScrollView android:id="@+id/textAreaScroller"
+        android:layout_width="fill_parent"
+        android:layout_height="173px"
+        android:layout_x="0px"
+        android:layout_y="25px"
+        android:scrollbars="vertical"
+        android:layout_above="@+id/button_send"
+        android:layout_alignParentTop="true">
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="This is the text message it would send eventually. SEND IT I DARE YOU"
+        android:id="@+id/text_to_send"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#ffffff"
+        android:layout_above="@+id/button_send"
+        android:textSize="32dp"
+        android:maxLines = "5"
 
+        android:scrollbars = "vertical"
+        android:textStyle="bold|italic"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    </ScrollView>
+
+    <Button
+        android:onClick="chooseContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_contact"
+        android:id="@+id/button2"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="96dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="Calendar"
+        android:text="@string/calendar"
+        android:id="@+id/calendarButton"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find New Message"
+        android:id="@+id/next_message"
+        android:onClick="setRandomMessage"
+        android:layout_above="@+id/button2"
+        android:layout_toRightOf="@+id/button_send"
+        android:layout_toEndOf="@+id/button_send" />
 
 </RelativeLayout>

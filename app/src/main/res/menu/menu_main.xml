@@ -13,4 +13,9 @@
         android:title="Add More Messages"
         android:onClick="addMessages"
         />
+    <item
+        android:id= "@+id/refresh"
+        android:title="Refresh"
+        android:onClick="refreshData"
+        />
 </menu>
