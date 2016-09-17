@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity{
 
     }
     public void sendMessage(View v){
-<<<<<<< HEAD
         //sendText("2245956550", "Sext me bro.");
 
         final Context context = this;
@@ -149,7 +148,7 @@ public class MainActivity extends AppCompatActivity{
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id){
                         // Affirmative action
-                        sendText(number, (EditText) findViewByID(R.id.text_to_send));
+                        sendText(number, ((EditText) findViewById(R.id.text_to_send)).getText().toString());
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
