@@ -22,11 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddMessagesActivity" />
-<<<<<<< HEAD
         <activity android:name=".SettingsActivity"></activity>
-=======
         <activity android:name=".ContactsTest"></activity>
->>>>>>> bfcdcad922ccdce6d8287e72e11619135b73802b
     </application>
 
 </manifest>

@@ -21,9 +21,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         String[] menuList = {"Send Notifications", "Calendar Sync", "Connect to Database"};
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuList);
-        ListView list = (ListView) findViewByID(R.id.list);
+        /*ListView list = (ListView) findViewByID(R.id.list);
 
-        listView.setAdapter(list);
+        listView.setAdapter(adapter);*/
     }
 
     public void notifyTest(View view) {
