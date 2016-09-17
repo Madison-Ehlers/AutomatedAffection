@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.jar.Attributes;
 
-public class ContactsTest extends AppCompatActivity {
+public class ContactsActivity extends AppCompatActivity {
 
     private ListView contactsList;
     private ArrayAdapter<NameNumberContact> contactsAdapter;
@@ -32,7 +32,7 @@ public class ContactsTest extends AppCompatActivity {
 
         final Context context = this;
         contactsList = (ListView) findViewById(R.id.contactsListView);
-        ArrayList<NameNumberContact> contacts = getContacts();
+        ArrayList<NameNumberContact> contacts = getContacts(getApplicationContext().getContentResolver());
         contactsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contacts);
         contactsList.setAdapter(contactsAdapter);
 
@@ -65,8 +65,7 @@ public class ContactsTest extends AppCompatActivity {
         });
     }
 
-    private ArrayList<NameNumberContact> getContacts(){
-        ContentResolver cr = getApplicationContext().getContentResolver(); //Activity/Application android.content.Context
+    public static ArrayList<NameNumberContact> getContacts(ContentResolver cr){
         Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
         ArrayList<NameNumberContact> allContacts = new ArrayList<>();
 

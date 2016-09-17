@@ -10,11 +10,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,9 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity{
@@ -71,7 +67,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void chooseContact(View v){
-        Intent intent = new Intent(this, ContactsTest.class);
+        Intent intent = new Intent(this, ContactsActivity.class);
         startActivity(intent);
     }
 
