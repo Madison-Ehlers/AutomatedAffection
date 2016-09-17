@@ -43,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
     public void addMessages(MenuItem item){
         Intent intent = new Intent(this, AddMessagesActivity.class);
         startActivity(intent);
+    }
+
+    public void chooseContact(View v){
+        Intent intent = new Intent(this, ContactsTest.class);
+        startActivity(intent);
+    }
+
+    public void goToSettings(MenuItem item){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
 
     }
     public void sendMessage(View v){
