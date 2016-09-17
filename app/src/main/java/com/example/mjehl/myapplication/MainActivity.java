@@ -7,18 +7,36 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity{
 
     String txtPhoneNO;
     String txtMessage;
+    EditText messageToSend;
     Button btnSend;
-
+    private Map<String, String> params;
+    private Response.Listener<JSONObject> listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +46,61 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://hackisu.madisonehlers.com/messages";
+        StringRequest strRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        JSONArray myJSON;
+                        //JSONOBject j = new JSONObject(response.toString());
+                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                        try{
+                            myJSON = new JSONArray(response.toString());
+                            Toast.makeText(getApplicationContext(),"Successfully parsed", Toast.LENGTH_SHORT).show();
+                        }catch(Exception e){
+                            System.out.println(e);
+                            myJSON = new JSONArray();
+                            Toast.makeText(getApplicationContext(),"Error parsing Json", Toast.LENGTH_SHORT).show();
+                        }
+                        for(int n = 0; n < myJSON.length(); n++)
+                        {
+                            try{
+                                JSONObject object = myJSON.getJSONObject(n);
+
+                                Iterator<String> x = object.keys();
+                                while(x.hasNext()){
+                                    String key = x.next();
+                                    System.out.println(key);
+                                    String value = (String) object.get(key);
+                                    System.out.println(value);
+                                    Toast.makeText(getApplicationContext(),value, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            catch(Exception e){
+
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+                return params;
+            };
+        };
+
+        queue.add(strRequest);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +140,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void sendMessage(View v){
-        sendText("2245956550", "Sext me bro.");
+        messageToSend = (EditText) findViewById(R.id.text_to_send);
+        Toast.makeText(getApplicationContext(), "SMS Sent. : " + messageToSend.getText().toString() , Toast.LENGTH_LONG).show();
+        //sendText("2245956550", messageToSend.getText().toString());
+        sendText("7122993195", messageToSend.getText().toString());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
