@@ -35,9 +35,10 @@ public class MainActivity extends AppCompatActivity{
     EditText messageToSend;
     boolean networkReady;
     private ArrayList<Message> messages = new ArrayList<Message>();
-
+    private NameNumberContact mom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mom = getMom();
         networkReady = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -89,7 +90,6 @@ public class MainActivity extends AppCompatActivity{
                         JSONArray myJSON;
                         try{
                             myJSON = new JSONArray(response.toString());
-                            Toast.makeText(getApplicationContext(),"Successfully parsed", Toast.LENGTH_SHORT).show();
                         }catch(Exception e){
                             System.out.println(e);
                             myJSON = new JSONArray();
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity{
         ArrayList<NameNumberContact> myContacts = ContactsActivity.getContacts(getApplicationContext().getContentResolver());
         for (int i = 0; i < myContacts.size(); i++){
             if (myContacts.get(i).getName().toString().toLowerCase().equals("mom")){
-                Toast.makeText(getApplicationContext(), myContacts.get(i).getNumber(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"I found your Mom: " +  myContacts.get(i).getNumber(), Toast.LENGTH_LONG).show();
                 return myContacts.get(i);
             }
         }
@@ -145,21 +145,18 @@ public class MainActivity extends AppCompatActivity{
         final Context context = this;
         String number;
         String name;
-        
+
         // Check that there's actually data
         if (getIntent().getStringExtra("contactNumber") == null){
-            Toast.makeText(getApplicationContext(), "SMS FAIL. No contact selected... Finding Your Mom.", Toast.LENGTH_LONG).show();
-            NameNumberContact mom = getMom();
             number = mom.getNumber();
             name = mom.getName();
-            Toast.makeText(getApplicationContext(), "I think I found your mom... Am I right? " + number, Toast.LENGTH_LONG).show();
 
         }
         else {
              number = getIntent()
                     .getStringExtra("contactNumber")
                     .replaceAll("[\\s\\-()]", "");
-            name = getIntent().getStringExtra("contactName");
+             name = getIntent().getStringExtra("contactName");
         }
 
         final String finalName = name;
