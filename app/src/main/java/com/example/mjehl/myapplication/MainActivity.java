@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity{
                     public void onResponse(String response)
                     {
                         JSONArray myJSON;
-                        //JSONOBject j = new JSONObject(response.toString());
-                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
                         try{
                             myJSON = new JSONArray(response.toString());
                             Toast.makeText(getApplicationContext(),"Successfully parsed", Toast.LENGTH_SHORT).show();
