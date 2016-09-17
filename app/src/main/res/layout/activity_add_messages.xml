@@ -15,5 +15,31 @@
         android:text="What Messages Do You Want Everyone&apos;s Mom To See?"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="32dp" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:id="@+id/messageInputText"
+        android:hint="Insert message here"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:inputType=
+            "textCapSentences|textAutoCorrect"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Message"
+        android:id="@+id/store_message_db"
+        android:layout_below="@+id/messageInputText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/messageInputText"
+        android:layout_alignEnd="@+id/messageInputText" />
+
+
 </RelativeLayout>
