@@ -1,5 +1,6 @@
 package com.example.mjehl.myapplication;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,7 +39,6 @@ public class AddMessagesActivity extends AppCompatActivity {
         storeMessageBtn.setOnClickListener(
                 new View.OnClickListener(){
                     public void onClick(View v){
-                        Toast.makeText(getApplicationContext(), textInput.getText().toString(), Toast.LENGTH_LONG).show();
                         try{
                             final TextView mTextView = (TextView) findViewById(R.id.text);
 // Instantiate the RequestQueue.
@@ -79,17 +79,6 @@ public class AddMessagesActivity extends AppCompatActivity {
                             }
                         };
                             queue.add(stringRequest);
-//                            URL url = new URL("http://hackisu.madisonehlers.com/send_request.php");
-//                            HttpURLConnection client = (HttpURLConnection) url.openConnection();
-//                            Toast.makeText(getApplicationContext(), "Successfully Connected to hackisu.madisonehlers.com", Toast.LENGTH_LONG).show();
-//                            client.setRequestMethod("POST");
-//                            client.setRequestProperty("Content-Type", "text/plain; charset=utf-8");
-//                            Toast.makeText(getApplicationContext(), "So far so good", Toast.LENGTH_LONG).show();
-//                            client.setDoOutput(true);
-//                            Toast.makeText(getApplicationContext(), "Still good...", Toast.LENGTH_LONG).show();
-//                            Toast.makeText(getApplicationContext(), client.getResponseCode(), Toast.LENGTH_LONG).show();
-//                            String myItem = client.getErrorStream().toString();
-//                            Toast.makeText(getApplicationContext(), myItem, Toast.LENGTH_LONG).show();
                         }
                         catch(Exception e){
                             Toast.makeText(getApplicationContext(), "Failed to Connect", Toast.LENGTH_LONG).show();
@@ -98,5 +87,12 @@ public class AddMessagesActivity extends AppCompatActivity {
 
                 }
         );
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
     }
 }

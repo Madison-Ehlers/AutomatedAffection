@@ -201,10 +201,4 @@ public class MainActivity extends AppCompatActivity{
 
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Toast.makeText(getApplicationContext(), "Back has been pressed", Toast.LENGTH_LONG).show();
-
-    }
 }
