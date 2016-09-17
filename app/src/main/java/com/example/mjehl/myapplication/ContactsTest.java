@@ -1,8 +1,12 @@
 package com.example.mjehl.myapplication;
 
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +30,7 @@ public class ContactsTest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_text);
 
+        final Context context = this;
         contactsList = (ListView) findViewById(R.id.contactsListView);
         ArrayList<NameNumberContact> contacts = getContacts();
         contactsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contacts);
@@ -33,8 +38,29 @@ public class ContactsTest extends AppCompatActivity {
 
         contactsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-                String selectedFromList = (contactsList.getItemAtPosition(myItemInt)).toString();
-                Toast.makeText(getApplicationContext(), selectedFromList, Toast.LENGTH_SHORT).show();
+                final NameNumberContact selectedFromList = (NameNumberContact) (contactsList.getItemAtPosition(myItemInt));
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setTitle("Title");
+                alertDialogBuilder
+                        .setMessage("Select this Contact?")
+                        .setCancelable(true)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                // Affirmative action -> pass intent and go to previous activity
+                                Intent intent = new Intent(context, MainActivity.class);
+                                intent.putExtra("contactName", selectedFromList.getName());
+                                intent.putExtra("contactNumber", selectedFromList.getNumber());
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
     }
