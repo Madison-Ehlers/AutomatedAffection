@@ -60,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    public void goToSettings(MenuItem item){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+
+    }
     public void sendMessage(View v){
         sendText("2245956550", "Sext me bro.");
     }
