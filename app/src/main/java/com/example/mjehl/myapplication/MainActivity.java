@@ -109,29 +109,18 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        Intent intent = new Intent(this, ContactsTest.class);
-        startActivity(intent);
-
         txtPhoneNO = "2245956550";
         txtMessage = "Hey";
-        //btnSend = (Button) this.findViewById(R.id.button_send);
-//        btnSend.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(txtPhoneNO.length()> 0  && txtMessage.length() > 0){
-//                    sendMessage(txtPhoneNO, txtMessage);
-//                }
-//                else{
-//                    Toast.makeText(getBaseContext(),"Please enter new number", Toast.LENGTH_LONG ).show();
-//                }
-//            }
-//        });
     }
 
     public void addMessages(MenuItem item){
         Intent intent = new Intent(this, AddMessagesActivity.class);
         startActivity(intent);
+    }
 
+    public void chooseContact(View v){
+        Intent intent = new Intent(this, ContactsTest.class);
+        startActivity(intent);
     }
 
     public void goToSettings(MenuItem item){
@@ -145,6 +134,7 @@ public class MainActivity extends AppCompatActivity{
         //sendText("2245956550", messageToSend.getText().toString());
         sendText("7122993195", messageToSend.getText().toString());
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

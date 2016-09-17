@@ -2,5 +2,6 @@
     <string name="app_name">Automated Affection</string>
     <string name="action_settings">Settings</string>
     <string name="send_text">Spam Carter</string>
+    <string name="choose_contact">Choose Mom</string>\
 
 </resources>
