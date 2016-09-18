@@ -82,7 +82,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="Calendar"
+        android:onClick="chooseDate"
         android:text="@string/calendar"
         android:id="@+id/calendarButton"
         android:layout_below="@+id/imageView"

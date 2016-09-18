@@ -1,5 +1,7 @@
 package com.example.mjehl.myapplication;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +15,8 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -36,6 +40,9 @@ public class MainActivity extends AppCompatActivity{
     boolean networkReady;
     private ArrayList<Message> messages = new ArrayList<Message>();
     private NameNumberContact mom;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mom = getMom();
@@ -55,6 +62,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
     }
+
     public void setRandomMessage(View v){
         if(!networkReady)return;
         Random rand = new Random();
@@ -63,6 +71,12 @@ public class MainActivity extends AppCompatActivity{
         messageToSend.setText(messages.get(index).getMessage());
 
     }
+
+    public void chooseDate(View v){
+        Intent intent = new Intent(this, datePickerActivity.class);
+        startActivity(intent);
+    }
+
     public void addMessages(MenuItem item){
         Intent intent = new Intent(this, AddMessagesActivity.class);
         startActivity(intent);
@@ -73,10 +87,10 @@ public class MainActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
-    public void Calendar(View v){
-        Intent intent = new Intent(this, Calendar.class);
-        startActivity(intent);
-    }
+    //public void Calendar(View v){
+    //    Intent intent = new Intent(this, Calendar.class);
+    //    startActivity(intent);
+    //}
 
     public void getMessagesFromServer(){
         RequestQueue queue = Volley.newRequestQueue(this);
