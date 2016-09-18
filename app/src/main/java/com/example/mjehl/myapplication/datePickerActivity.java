@@ -19,7 +19,7 @@ public class datePickerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_datepicker);
+        setContentView(R.layout.activity_date_picker);
         final Calendar cal = Calendar.getInstance();
         year_x = cal.get(Calendar.YEAR);
         month_x = cal.get(Calendar.MONTH);

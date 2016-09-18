@@ -8,11 +8,16 @@ import android.content.SharedPreferences;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 //import android.support.v7.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,15 +44,16 @@ public class SettingsActivity extends PreferenceActivity {
 
     }
 
+
     private void listenForPreferenceUpdates() {
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         //update events listener
-        final Intent intent = new Intent(this, MainActivity.class);
+        final Intent intent = new Intent(this, datePickerActivity.class);
         Preference prefUpdate = (Preference) findPreference("update");
         prefUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                //startActivity(intent);
+                startActivity(intent);
                 return true;
             }
         });
