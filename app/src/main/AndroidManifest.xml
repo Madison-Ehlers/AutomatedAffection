@@ -24,14 +24,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddMessagesActivity" />
-
         <activity android:name=".SettingsActivity"
             android:label="Settings"
             android:theme="@style/AppTheme">
         </activity>
-
-        <activity android:name=".ContactsTest"></activity>
-        <activity android:name=".Calendar"></activity>
+        <activity android:name=".ContactsActivity" />
+        <activity android:name=".datePickerActivity"/>
     </application>
 
 </manifest>

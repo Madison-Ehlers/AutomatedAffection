@@ -1,5 +1,7 @@
 package com.example.mjehl.myapplication;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,11 +12,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,34 +31,30 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Random;
+import java.util.jar.Attributes;
 
 public class MainActivity extends AppCompatActivity{
     EditText messageToSend;
     boolean networkReady;
-    private ArrayList<Message> messages = new ArrayList<Message>();
+    private ArrayList<Message> messages = new ArrayList<>();
+    private NameNumberContact mom;
+    private static final int PICK_CONTACT_REQUEST = 1;
+    private String number;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mom = getMom();
         networkReady = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         getMessagesFromServer();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
+
     public void setRandomMessage(View v){
         if(!networkReady)return;
         Random rand = new Random();
@@ -65,20 +63,31 @@ public class MainActivity extends AppCompatActivity{
         messageToSend.setText(messages.get(index).getMessage());
 
     }
+
+    public void chooseDate(View v){
+        Intent intent = new Intent(this, datePickerActivity.class);
+        startActivity(intent);
+    }
+
     public void addMessages(MenuItem item){
         Intent intent = new Intent(this, AddMessagesActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 2);
+    }
+
+    public void messageRoulette(View v){
+
     }
 
     public void chooseContact(View v){
-        Intent intent = new Intent(this, ContactsTest.class);
-        startActivity(intent);
+        Toast.makeText(getApplicationContext(),"Building Contacts list...", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, ContactsActivity.class);
+        startActivityForResult(intent, PICK_CONTACT_REQUEST);
     }
 
-    public void Calendar(View v){
-        Intent intent = new Intent(this, Calendar.class);
-        startActivity(intent);
-    }
+    //public void Calendar(View v){
+    //    Intent intent = new Intent(this, Calendar.class);
+    //    startActivity(intent);
+    //}
 
     public void getMessagesFromServer(){
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -92,7 +101,6 @@ public class MainActivity extends AppCompatActivity{
                         JSONArray myJSON;
                         try{
                             myJSON = new JSONArray(response.toString());
-                            Toast.makeText(getApplicationContext(),"Successfully parsed", Toast.LENGTH_SHORT).show();
                         }catch(Exception e){
                             System.out.println(e);
                             myJSON = new JSONArray();
@@ -126,7 +134,16 @@ public class MainActivity extends AppCompatActivity{
 
         queue.add(strRequest);
     }
-
+    public NameNumberContact getMom(){
+        ArrayList<NameNumberContact> myContacts = ContactsActivity.getContacts(getApplicationContext().getContentResolver());
+        for (int i = 0; i < myContacts.size(); i++){
+            if (myContacts.get(i).getName().toString().toLowerCase().equals("mom")){
+                Toast.makeText(getApplicationContext(),"I found your Mom: " +  myContacts.get(i).getNumber(), Toast.LENGTH_LONG).show();
+                return myContacts.get(i);
+            }
+        }
+        return null;
+    }
     public void goToSettings(MenuItem item){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
@@ -139,15 +156,13 @@ public class MainActivity extends AppCompatActivity{
         final Context context = this;
 
         // Check that there's actually data
-        if (getIntent().getStringExtra("contactNumber") == null){
-            Toast.makeText(getApplicationContext(), "SMS FAIL. No contact selected", Toast.LENGTH_LONG).show();
-            return;
+        if (name == null){
+            number = mom.getNumber();
+            name = mom.getName();
         }
 
-        final String number = getIntent()
-                .getStringExtra("contactNumber")
-                .replaceAll("[\\s\\-()]", "");
-        final String name = getIntent().getStringExtra("contactName");
+        final String finalName = name;
+        final String finalNumber = number;
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle("Title");
@@ -157,7 +172,7 @@ public class MainActivity extends AppCompatActivity{
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id){
                         // Affirmative action
-                        sendText(number, ((EditText) findViewById(R.id.text_to_send)).getText().toString());
+                        sendText(finalNumber, ((EditText) findViewById(R.id.text_to_send)).getText().toString());
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
@@ -200,5 +215,26 @@ public class MainActivity extends AppCompatActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == PICK_CONTACT_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                name = data.getStringExtra("contactName");
+                number = data
+                        .getStringExtra("contactNumber")
+                        .replaceAll("[\\s\\-()]", "");
+            }
+        }
+
+        if (requestCode == 2) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                getMessagesFromServer();
+            }
+        }
     }
 }
