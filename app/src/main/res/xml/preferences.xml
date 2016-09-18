@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/pref_user_profile" >
-        <EditTextPreference
-            android:title="@string/pref_user_name"
-            android:summary="@string/pref_user_name_summary"
-            android:key="prefUsername"/>
+    <PreferenceCategory android:title="General Settings" >
+        <Preference
+            android:key="update"
+            android:title="Update Information"
+            android:summary="Update event dates"/>
+        <ListPreference
+            android:key="prefFrequency"
+            android:entries="@array/frequency"
+            android:summary="Frequency that regular messages are sent"
+            android:entryValues="@array/frequencyValues"
+            android:title="Message Frequency"
+            android:persistent="true"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_update_setting" >
+    <PreferenceCategory android:title="Notification Settings" >
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="prefSendReport"
-            android:summary="@string/pref_send_report_summary"
-            android:title="@string/pref_send_report" >
-        </CheckBoxPreference>
-
-        <ListPreference
-            android:key="prefSyncFrequency"
-            android:entries="@array/syncFrequency"
-            android:summary="@string/pref_sync_frequency_summary"
-            android:entryValues="@array/syncFrequencyValues"
-            android:title="@string/pref_sync_frequency" />
+            android:defaultValue="true"
+            android:key="prefNotifications"
+            android:summary="Reminders are sent as notifications"
+            android:title="Reminder Notifications"
+            android:persistent="true"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -130,8 +130,8 @@ public class MainActivity extends AppCompatActivity{
     public void goToSettings(MenuItem item){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
-
     }
+
     public void refreshData(MenuItem m){
         getMessagesFromServer();
     }
