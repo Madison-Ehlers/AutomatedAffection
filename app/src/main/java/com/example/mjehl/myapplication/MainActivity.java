@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity{
     }
     public void addMessages(MenuItem item){
         Intent intent = new Intent(this, AddMessagesActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 2);
     }
 
     public void messageRoulette(View v){
@@ -216,6 +216,13 @@ public class MainActivity extends AppCompatActivity{
                 number = data
                         .getStringExtra("contactNumber")
                         .replaceAll("[\\s\\-()]", "");
+            }
+        }
+
+        if (requestCode == 2) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                getMessagesFromServer();
             }
         }
     }
