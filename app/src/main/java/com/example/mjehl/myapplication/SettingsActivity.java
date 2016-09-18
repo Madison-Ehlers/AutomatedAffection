@@ -96,18 +96,5 @@ public class SettingsActivity extends PreferenceActivity {
 
 
 
-    private void notifyTest(View view) {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-        .setSmallIcon(R.mipmap.ic_launcher)
-        .setContentTitle("Test Notification")
-        .setContentText("Go to  the Main Activity");
 
-        Intent resultIntent = new Intent(this, MainActivity.class);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        mBuilder.setAutoCancel(true);
-        mNotifyMgr.notify(001, mBuilder.build());
-    }
 }
