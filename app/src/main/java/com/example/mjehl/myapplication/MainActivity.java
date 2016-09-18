@@ -38,10 +38,11 @@ import java.util.jar.Attributes;
 public class MainActivity extends AppCompatActivity{
     EditText messageToSend;
     boolean networkReady;
-    private ArrayList<Message> messages = new ArrayList<Message>();
+    private ArrayList<Message> messages = new ArrayList<>();
     private NameNumberContact mom;
-
-
+    private static final int PICK_CONTACT_REQUEST = 1;
+    private String number;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +52,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         getMessagesFromServer();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     public void setRandomMessage(View v){
@@ -79,12 +71,17 @@ public class MainActivity extends AppCompatActivity{
 
     public void addMessages(MenuItem item){
         Intent intent = new Intent(this, AddMessagesActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 2);
+    }
+
+    public void messageRoulette(View v){
+
     }
 
     public void chooseContact(View v){
+        Toast.makeText(getApplicationContext(),"Building Contacts list...", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, ContactsActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, PICK_CONTACT_REQUEST);
     }
 
     //public void Calendar(View v){
@@ -157,20 +154,11 @@ public class MainActivity extends AppCompatActivity{
     }
     public void sendMessage(View v){
         final Context context = this;
-        String number;
-        String name;
 
         // Check that there's actually data
-        if (getIntent().getStringExtra("contactNumber") == null){
+        if (name == null){
             number = mom.getNumber();
             name = mom.getName();
-
-        }
-        else {
-             number = getIntent()
-                    .getStringExtra("contactNumber")
-                    .replaceAll("[\\s\\-()]", "");
-             name = getIntent().getStringExtra("contactName");
         }
 
         final String finalName = name;
@@ -227,5 +215,26 @@ public class MainActivity extends AppCompatActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == PICK_CONTACT_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                name = data.getStringExtra("contactName");
+                number = data
+                        .getStringExtra("contactNumber")
+                        .replaceAll("[\\s\\-()]", "");
+            }
+        }
+
+        if (requestCode == 2) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                getMessagesFromServer();
+            }
+        }
     }
 }

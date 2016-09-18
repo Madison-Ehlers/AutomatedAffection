@@ -13,7 +13,6 @@
     tools:context="com.example.mjehl.myapplication.MainActivity"
     tools:showIn="@layout/activity_main">
     <Button
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/send_text"
@@ -74,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/choose_contact"
-        android:id="@+id/button2"
+        android:id="@+id/chooseMomButton"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="96dp" />
@@ -94,7 +93,7 @@
         android:text="Find New Message"
         android:id="@+id/next_message"
         android:onClick="setRandomMessage"
-        android:layout_above="@+id/button2"
+        android:layout_above="@+id/chooseMomButton"
         android:layout_toRightOf="@+id/button_send"
         android:layout_toEndOf="@+id/button_send" />
 
