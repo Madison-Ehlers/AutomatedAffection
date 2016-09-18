@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void chooseContact(View v){
+        Toast.makeText(getApplicationContext(),"Building Contacts list...", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, ContactsActivity.class);
         startActivityForResult(intent, PICK_CONTACT_REQUEST);
     }
